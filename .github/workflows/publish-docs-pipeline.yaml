@@ -1,4 +1,4 @@
-name: Publish Docs
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
@@ -7,24 +7,31 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  deploy-docs:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocs-material pymdown-extensions mkdocs-jupyter
+          pip install mkdocs mkdocs-material mkdocs-jupyter
 
-      - name: Deploy to Github Pages
-        run: |
-          mkdocs gh-deploy --force
+      - name: Build the site
+        run: mkdocs build --clean
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
