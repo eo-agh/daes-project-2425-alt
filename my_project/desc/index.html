@@ -747,24 +747,28 @@ Dane wejściowe pochodzą ze strony <a href="https://dane.imgw.pl/">IMGW</a> i o
 </li>
 </ul>
 <h3 id="format-danych">Format danych<a class="headerlink" href="#format-danych" title="Permanent link">&para;</a></h3>
-<p>Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), co umożliwia dalszą analizę oraz wizualizację.</p>
+<p>Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), a lokalizacje geograficzne zapisywane jako <code>GeoDataFrame</code> w układzie współrzędnych <strong>EPSG:2180</strong> (PUWG 1992), co umożliwia ich dalszą analizę przestrzenną i wizualizację.</p>
 <hr />
 <h1 id="implementacja-techniczna">Implementacja techniczna<a class="headerlink" href="#implementacja-techniczna" title="Permanent link">&para;</a></h1>
 <h2 id="modu-imgw_apipy">Moduł: <code>imgw_api.py</code><a class="headerlink" href="#modu-imgw_apipy" title="Permanent link">&para;</a></h2>
-<p>Plik <code>imgw_api.py</code> zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych. Główne funkcje to:</p>
-<h3 id="get_hydro_metadata"><code>get_hydro_metadata()</code><a class="headerlink" href="#get_hydro_metadata" title="Permanent link">&para;</a></h3>
+<p>Plik <code>imgw_api.py</code> zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych oraz ich konwersję przestrzenną. Główne funkcje to:</p>
+<h3 id="get_hydro_metadata-geodataframe"><code>get_hydro_metadata() -&gt; GeoDataFrame</code><a class="headerlink" href="#get_hydro_metadata-geodataframe" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Opis: Pobiera dane dotyczące hydrologicznych stacji pomiarowych.</li>
-<li>Zwraca: Kod stacji, położenie, współrzędne geograficzne.</li>
+<li>Opis: Pobiera dane dotyczące hydrologicznych stacji pomiarowych ze wskazanego źródła (np. CSV z API IMGW).</li>
+<li>Tworzy kolumnę <code>geometry</code> na podstawie <code>lat</code> i <code>lon</code>.</li>
+<li>Przypisuje CRS <code>EPSG:4326</code> i natychmiast konwertuje do <code>EPSG:2180</code> (PUWG 1992).</li>
+<li>Zwraca: <code>GeoDataFrame</code> z geometrią punktową w układzie PUWG 1992.</li>
 </ul>
-<h3 id="get_meteo_metadata"><code>get_meteo_metadata()</code><a class="headerlink" href="#get_meteo_metadata" title="Permanent link">&para;</a></h3>
+<h3 id="get_meteo_metadata-geodataframe"><code>get_meteo_metadata() -&gt; GeoDataFrame</code><a class="headerlink" href="#get_meteo_metadata-geodataframe" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Opis: Pobiera dane dotyczące meteorologicznych stacji pomiarowych.</li>
-<li>Zwraca: Kod stacji, położenie, współrzędne geograficzne.</li>
+<li>Opis: Pobiera dane dotyczące meteorologicznych stacji pomiarowych ze wskazanego źródła.</li>
+<li>Tworzy kolumnę <code>geometry</code> na podstawie <code>lat</code> i <code>lon</code>.</li>
+<li>Przypisuje CRS <code>EPSG:4326</code> i konwertuje do <code>EPSG:2180</code>.</li>
+<li>Zwraca: <code>GeoDataFrame</code> z geometrią punktową w układzie PUWG 1992.</li>
 </ul>
 <hr />
 <blockquote>
-<p>📌 <strong>Uwaga</strong>: Wszystkie dane są przetwarzane zgodnie z wymogami modelu ML — oczyszczane, ujednolicane i zapisywane w jednolitym formacie.</p>
+<p>📌 <strong>Uwaga</strong>: Konwersja do EPSG:2180 umożliwia bezpośrednie połączenie i wizualizację danych ze statycznymi warstwami granic administracyjnych Polski, które również są w tym układzie współrzędnych.</p>
 </blockquote>
 
 
