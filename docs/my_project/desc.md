@@ -32,7 +32,7 @@ Mapy wykorzystywane w projekcie zawierają następujące warstwy:
 
 ### Format danych
 
-Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), co umożliwia dalszą analizę oraz wizualizację.
+Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), a lokalizacje geograficzne zapisywane jako `GeoDataFrame` w układzie współrzędnych **EPSG:2180** (PUWG 1992), co umożliwia ich dalszą analizę przestrzenną i wizualizację.
 
 ---
 
@@ -40,19 +40,22 @@ Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), co
 
 ## Moduł: `imgw_api.py`
 
-Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych. Główne funkcje to:
+Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych oraz ich konwersję przestrzenną. Główne funkcje to:
 
-### `get_hydro_metadata()`
+### `get_hydro_metadata() -> GeoDataFrame`
 
-- Opis: Pobiera dane dotyczące hydrologicznych stacji pomiarowych.
-- Zwraca: Kod stacji, położenie, współrzędne geograficzne.
+- Opis: Pobiera dane dotyczące hydrologicznych stacji pomiarowych ze wskazanego źródła (np. CSV z API IMGW).
+- Tworzy kolumnę `geometry` na podstawie `lat` i `lon`.
+- Przypisuje CRS `EPSG:4326` i natychmiast konwertuje do `EPSG:2180` (PUWG 1992).
+- Zwraca: `GeoDataFrame` z geometrią punktową w układzie PUWG 1992.
 
-### `get_meteo_metadata()`
+### `get_meteo_metadata() -> GeoDataFrame`
 
-- Opis: Pobiera dane dotyczące meteorologicznych stacji pomiarowych.
-- Zwraca: Kod stacji, położenie, współrzędne geograficzne.
+- Opis: Pobiera dane dotyczące meteorologicznych stacji pomiarowych ze wskazanego źródła.
+- Tworzy kolumnę `geometry` na podstawie `lat` i `lon`.
+- Przypisuje CRS `EPSG:4326` i konwertuje do `EPSG:2180`.
+- Zwraca: `GeoDataFrame` z geometrią punktową w układzie PUWG 1992.
 
 ---
 
-> 📌 **Uwaga**: Wszystkie dane są przetwarzane zgodnie z wymogami modelu ML — oczyszczane, ujednolicane i zapisywane w jednolitym formacie.
-
+> 📌 **Uwaga**: Konwersja do EPSG:2180 umożliwia bezpośrednie połączenie i wizualizację danych ze statycznymi warstwami granic administracyjnych Polski, które również są w tym układzie współrzędnych.
