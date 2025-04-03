@@ -40,15 +40,12 @@ Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), a 
 
 ## Moduł: `imgw_api.py`
 
-Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych oraz ich konwersję przestrzenną. Główne funkcje to:
+Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych oraz ich konwersję przestrzenną. Oraz pobieranie rzeczwysitych danych pomiarowych. Główne funkcje to:
 
-### `get_hydro_metadata(url: str) -> GeoDataFrame`
+### `get_hydro_metadata() -> GeoDataFrame`
 
 - **Opis**: Funkcja pobiera metadane dotyczące hydrologicznych stacji pomiarowych ze wskazanego źródła (np. pliku CSV lub adresu URL z API IMGW).
   Na podstawie współrzędnych geograficznych (`lat`, `lon`) tworzy obiekt przestrzenny typu `GeoDataFrame`.
-
-- **Parametry**:
-  - `url` (`str`) – ścieżka lokalna lub URL do pliku CSV zawierającego metadane stacji hydrologicznych (w tym kolumny `lat`, `lon`).
 
 - **Zakres działania**:
   - Wczytuje dane jako zwykły `DataFrame`,
@@ -63,13 +60,10 @@ Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyc
 
 ---
 
-### `get_meteo_metadata(url: str) -> GeoDataFrame`
+### `get_meteo_metadata() -> GeoDataFrame`
 
 - **Opis**: Funkcja pobiera metadane dotyczące meteorologicznych stacji pomiarowych ze wskazanego źródła (np. pliku CSV lub adresu URL).
   Na podstawie współrzędnych geograficznych (`lat`, `lon`) buduje przestrzenną reprezentację stacji.
-
-- **Parametry**:
-  - `url` (`str`) – ścieżka lokalna lub URL do pliku CSV zawierającego metadane stacji meteorologicznych (w tym kolumny `lat`, `lon`).
 
 - **Zakres działania**:
   - Wczytuje dane do `DataFrame`,
@@ -79,8 +73,6 @@ Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyc
 
 - **Zwraca**:
   - `GeoDataFrame` z geometrią stacji meteorologicznych w układzie PUWG 1992.
-
-> ✅ Dzięki przestrzennej reprezentacji danych możliwe jest ich bezpośrednie mapowanie i łączenie z danymi środowiskowymi i administracyjnymi.
 
   
 ### `get_hydro_data(first: int, last: int) -> DataFrame`
@@ -113,6 +105,3 @@ Plik `imgw_api.py` zawiera funkcje odpowiedzialne za pobieranie metadanych dotyc
 - **Obsługa błędów**:
   - Jeżeli nie uda się pobrać pliku ZIP, funkcja wyświetla komunikat, ale nie przerywa działania.
 
----
-
-> 📌 **Uwaga**: Konwersja do EPSG:2180 umożliwia bezpośrednie połączenie i wizualizację danych ze statycznymi warstwami granic administracyjnych Polski, które również są w tym układzie współrzędnych.
