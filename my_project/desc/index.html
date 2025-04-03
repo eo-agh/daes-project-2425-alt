@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cel" class="md-skip">
+        <a href="#cel-projektu" class="md-skip">
           Skip to content
         </a>
       
@@ -400,19 +400,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Description
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -425,59 +414,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metody" class="md-nav__link">
-    <span class="md-ellipsis">
-      Metody
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#techniczna-implementacja" class="md-nav__link">
-    <span class="md-ellipsis">
-      Techniczna implementacja
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      ...
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -760,50 +696,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cel
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metody" class="md-nav__link">
-    <span class="md-ellipsis">
-      Metody
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#techniczna-implementacja" class="md-nav__link">
-    <span class="md-ellipsis">
-      Techniczna implementacja
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      ...
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -822,14 +716,56 @@
   
 
 
-  <h1>Description</h1>
-
-<h2 id="cel">Cel<a class="headerlink" href="#cel" title="Permanent link">&para;</a></h2>
-<p>Celem projektu jest wykonanie modelu, który na podstawie dobowych danych meteorologicznych oraz hydrologicznych, przewidywał będzie poziom wód lądowych. W tym celu wykorzystane zostaną dane ze strony IMGW.
-Następnie po zapoznaniu z danymi i ich przygotowaniu, wybrane zostaną zmienne niezależne do modelu ML.</p>
-<h2 id="metody">Metody<a class="headerlink" href="#metody" title="Permanent link">&para;</a></h2>
-<h2 id="techniczna-implementacja">Techniczna implementacja<a class="headerlink" href="#techniczna-implementacja" title="Permanent link">&para;</a></h2>
-<h2 id="_1">...<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h1 id="cel-projektu">Cel projektu<a class="headerlink" href="#cel-projektu" title="Permanent link">&para;</a></h1>
+<p>Celem projektu jest opracowanie modelu uczenia maszynowego, który na podstawie dobowych danych meteorologicznych oraz hydrologicznych będzie przewidywał poziom wód lądowych.<br />
+Dane wejściowe pochodzą ze strony <a href="https://dane.imgw.pl/">IMGW</a> i obejmują:</p>
+<ul>
+<li>Dobowe pomiary meteorologiczne,</li>
+<li>Dobowe pomiary hydrologiczne.</li>
+</ul>
+<p>Po wstępnym zapoznaniu się z danymi oraz ich przygotowaniu, zostaną wybrane zmienne niezależne do budowy modelu ML.</p>
+<hr />
+<h1 id="metody">Metody<a class="headerlink" href="#metody" title="Permanent link">&para;</a></h1>
+<h2 id="wczytywanie-metadanych-i-map">Wczytywanie metadanych i map<a class="headerlink" href="#wczytywanie-metadanych-i-map" title="Permanent link">&para;</a></h2>
+<p>Mapy wykorzystywane w projekcie zawierają następujące warstwy:</p>
+<ul>
+<li>Granice administracyjne,</li>
+<li>Rzeki i jeziora,</li>
+<li>Stacje pomiarowe hydrologiczne i meteorologiczne,</li>
+<li>Podkład geograficzny Polski.</li>
+</ul>
+<h3 id="zroda-danych">Źródła danych<a class="headerlink" href="#zroda-danych" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Granice administracyjne i podkład geograficzny</strong>:<br />
+  Pobierane statycznie jako pliki <code>.shp</code> z serwisu GIS Support:<br />
+<a href="https://gis-support.pl/baza-wiedzy-2/dane-do-pobrania/granice-administracyjne/">https://gis-support.pl/baza-wiedzy-2/dane-do-pobrania/granice-administracyjne/</a></p>
+</li>
+<li>
+<p><strong>Stacje IMGW (hydrologiczne i meteorologiczne)</strong>:<br />
+  Lokalizacje oraz kody stacji pobierane są dynamicznie poprzez <strong>API IMGW</strong>.</p>
+</li>
+</ul>
+<h3 id="format-danych">Format danych<a class="headerlink" href="#format-danych" title="Permanent link">&para;</a></h3>
+<p>Po wczytaniu dane są przetwarzane do formatu tabelarycznego (np. DataFrame), co umożliwia dalszą analizę oraz wizualizację.</p>
+<hr />
+<h1 id="implementacja-techniczna">Implementacja techniczna<a class="headerlink" href="#implementacja-techniczna" title="Permanent link">&para;</a></h1>
+<h2 id="modu-imgw_apipy">Moduł: <code>imgw_api.py</code><a class="headerlink" href="#modu-imgw_apipy" title="Permanent link">&para;</a></h2>
+<p>Plik <code>imgw_api.py</code> zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych. Główne funkcje to:</p>
+<h3 id="get_hydro_metadata"><code>get_hydro_metadata()</code><a class="headerlink" href="#get_hydro_metadata" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Opis: Pobiera dane dotyczące hydrologicznych stacji pomiarowych.</li>
+<li>Zwraca: Kod stacji, położenie, współrzędne geograficzne.</li>
+</ul>
+<h3 id="get_meteo_metadata"><code>get_meteo_metadata()</code><a class="headerlink" href="#get_meteo_metadata" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Opis: Pobiera dane dotyczące meteorologicznych stacji pomiarowych.</li>
+<li>Zwraca: Kod stacji, położenie, współrzędne geograficzne.</li>
+</ul>
+<hr />
+<blockquote>
+<p>📌 <strong>Uwaga</strong>: Wszystkie dane są przetwarzane zgodnie z wymogami modelu ML — oczyszczane, ujednolicane i zapisywane w jednolitym formacie.</p>
+</blockquote>
 
 
 
