@@ -1,5 +1,9 @@
 import pandas as pd
 import geopandas as gpd
+import requests
+import io
+import zipfile
+import chardet
 from shapely.geometry import Point
 
 def get_hydro_metadata() -> gpd.GeoDataFrame:
