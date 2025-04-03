@@ -751,18 +751,12 @@ Dane wejściowe pochodzą ze strony <a href="https://dane.imgw.pl/">IMGW</a> i o
 <hr />
 <h1 id="implementacja-techniczna">Implementacja techniczna<a class="headerlink" href="#implementacja-techniczna" title="Permanent link">&para;</a></h1>
 <h2 id="modu-imgw_apipy">Moduł: <code>imgw_api.py</code><a class="headerlink" href="#modu-imgw_apipy" title="Permanent link">&para;</a></h2>
-<p>Plik <code>imgw_api.py</code> zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych oraz ich konwersję przestrzenną. Główne funkcje to:</p>
-<h3 id="get_hydro_metadataurl-str-geodataframe"><code>get_hydro_metadata(url: str) -&gt; GeoDataFrame</code><a class="headerlink" href="#get_hydro_metadataurl-str-geodataframe" title="Permanent link">&para;</a></h3>
+<p>Plik <code>imgw_api.py</code> zawiera funkcje odpowiedzialne za pobieranie metadanych dotyczących stacji pomiarowych oraz ich konwersję przestrzenną. Oraz pobieranie rzeczwysitych danych pomiarowych. Główne funkcje to:</p>
+<h3 id="get_hydro_metadata-geodataframe"><code>get_hydro_metadata() -&gt; GeoDataFrame</code><a class="headerlink" href="#get_hydro_metadata-geodataframe" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p><strong>Opis</strong>: Funkcja pobiera metadane dotyczące hydrologicznych stacji pomiarowych ze wskazanego źródła (np. pliku CSV lub adresu URL z API IMGW).
   Na podstawie współrzędnych geograficznych (<code>lat</code>, <code>lon</code>) tworzy obiekt przestrzenny typu <code>GeoDataFrame</code>.</p>
-</li>
-<li>
-<p><strong>Parametry</strong>:</p>
-</li>
-<li>
-<p><code>url</code> (<code>str</code>) – ścieżka lokalna lub URL do pliku CSV zawierającego metadane stacji hydrologicznych (w tym kolumny <code>lat</code>, <code>lon</code>).</p>
 </li>
 <li>
 <p><strong>Zakres działania</strong>:</p>
@@ -782,17 +776,11 @@ Dane wejściowe pochodzą ze strony <a href="https://dane.imgw.pl/">IMGW</a> i o
 <p>📌 <strong>Uwaga</strong>: Przekształcenie CRS umożliwia łączenie danych ze statycznymi warstwami przestrzennymi Polski w tym samym układzie.</p>
 </blockquote>
 <hr />
-<h3 id="get_meteo_metadataurl-str-geodataframe"><code>get_meteo_metadata(url: str) -&gt; GeoDataFrame</code><a class="headerlink" href="#get_meteo_metadataurl-str-geodataframe" title="Permanent link">&para;</a></h3>
+<h3 id="get_meteo_metadata-geodataframe"><code>get_meteo_metadata() -&gt; GeoDataFrame</code><a class="headerlink" href="#get_meteo_metadata-geodataframe" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p><strong>Opis</strong>: Funkcja pobiera metadane dotyczące meteorologicznych stacji pomiarowych ze wskazanego źródła (np. pliku CSV lub adresu URL).
   Na podstawie współrzędnych geograficznych (<code>lat</code>, <code>lon</code>) buduje przestrzenną reprezentację stacji.</p>
-</li>
-<li>
-<p><strong>Parametry</strong>:</p>
-</li>
-<li>
-<p><code>url</code> (<code>str</code>) – ścieżka lokalna lub URL do pliku CSV zawierającego metadane stacji meteorologicznych (w tym kolumny <code>lat</code>, <code>lon</code>).</p>
 </li>
 <li>
 <p><strong>Zakres działania</strong>:</p>
@@ -808,9 +796,6 @@ Dane wejściowe pochodzą ze strony <a href="https://dane.imgw.pl/">IMGW</a> i o
 </li>
 <li><code>GeoDataFrame</code> z geometrią stacji meteorologicznych w układzie PUWG 1992.</li>
 </ul>
-<blockquote>
-<p>✅ Dzięki przestrzennej reprezentacji danych możliwe jest ich bezpośrednie mapowanie i łączenie z danymi środowiskowymi i administracyjnymi.</p>
-</blockquote>
 <h3 id="get_hydro_datafirst-int-last-int-dataframe"><code>get_hydro_data(first: int, last: int) -&gt; DataFrame</code><a class="headerlink" href="#get_hydro_datafirst-int-last-int-dataframe" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
@@ -855,10 +840,6 @@ Dane wejściowe pochodzą ze strony <a href="https://dane.imgw.pl/">IMGW</a> i o
 </li>
 <li>Jeżeli nie uda się pobrać pliku ZIP, funkcja wyświetla komunikat, ale nie przerywa działania.</li>
 </ul>
-<hr />
-<blockquote>
-<p>📌 <strong>Uwaga</strong>: Konwersja do EPSG:2180 umożliwia bezpośrednie połączenie i wizualizację danych ze statycznymi warstwami granic administracyjnych Polski, które również są w tym układzie współrzędnych.</p>
-</blockquote>
 
 
 
