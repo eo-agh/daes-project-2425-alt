@@ -24,7 +24,7 @@ def get_hydro_metadata() -> gpd.GeoDataFrame:
     
     # Konwersja do układu PL (PUWG 1992)
     gdf = gdf.to_crs("EPSG:2180")
-    
+    gdf.columns = ["Station Code","Station Name","Lon","Lat","geometry"] 
     return gdf
 
 
