@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import geopandas as gpd
 import requests
 import io
@@ -106,23 +107,28 @@ def get_meteo_data(first, last):
             links = soup.find_all('a')
             href_links = [link.get('href') for link in links if link.get('href') is not None and link.get('href')[0:4] == str(i)]
         else: print(f"Strona meteo nie odpowiada.")
-            
+
+
         for link in href_links:
             response = requests.get(url + link)
             if response.status_code == 200:
                 zip_file = zipfile.ZipFile(io.BytesIO(response.content))  
-            
-                with zip_file.open(zip_file.namelist()[0]) as file:
-                    content = file.read()
-                    if chardet.detect(content)["encoding"] != None:
-                        encoding = chardet.detect(content)["encoding"]
-                    else: ecoding = 'uknown-8bit'
-                    raw_data = content.decode(encoding, errors="replace")  
-                    data = io.StringIO(raw_data)
-                    data_station = pd.read_csv(data, header=None, encoding=encoding, sep=',', lineterminator="\n")
-                    meteo_data = pd.concat([meteo_data, data_station])
+                for name in zip_file.namelist():
+                    if "s_d_t" not in name:
+                        with zip_file.open(name) as file:
+                            content = file.read()
+                            if chardet.detect(content)["encoding"] != None:
+                                encoding = chardet.detect(content)["encoding"]
+                            else: ecoding = 'uknown-8bit'
+                            raw_data = content.decode(encoding, errors="replace")
+                            data = io.StringIO(raw_data)
+                            data_station = pd.read_csv(data, header=None, encoding=encoding, sep=',', lineterminator="\n")
+                            meteo_data = pd.concat([meteo_data, data_station])
             else:
                 print(f"Nie udało się pobrać pliku ZIP.") 
+
+    meteo_data = meteo_data.map(lambda x: str(x).replace('\r', '').replace('\n', '').strip() if isinstance(x, str) else x)
+    meteo_data.replace(['', 'nan', 'NaN', 'None', '-', 'null'], np.nan, inplace=True)
     
     meteo_data.columns = [
     'Station Code',
@@ -191,5 +197,6 @@ def get_meteo_data(first, last):
     'Actinometry',
     'Actinometry Status'
     ]
+    meteo_data['Actinometry Status'] = pd.to_numeric(meteo_data['Actinometry Status'], errors='coerce')
 
     return meteo_data
