@@ -1,3 +1,11 @@
+## 11.04.2025
+### Problem:
+Trudności z zapisem danych meteorologicznych do pliku parquet.
+
+### Rozwiązanie:
+Błędne wartości "\r" zostały zmapowane na "NaN" na etapie pobierania danych.
+
+
 ## 4.04.2025
 ### Problem:
 Brak Meta Danych Stacji Pomiarowych - Hydro
