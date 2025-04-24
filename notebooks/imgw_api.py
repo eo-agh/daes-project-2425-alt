@@ -9,29 +9,40 @@ from shapely.geometry import Point
 from bs4 import BeautifulSoup
 
 
-def get_hydro_metadata() -> gpd.GeoDataFrame:
+def get_hydro_metadata(filtered=False) -> gpd.GeoDataFrame:
     """
     Wczytuje metadane hydrologiczne ze wskazanego URL (np. API IMGW)
     i zwraca je jako GeoDataFrame w układzie EPSG:2180 (PUWG 1992).
+    
+    Jeśli `filtered=True`, zwraca tylko stacje o kodach zawartych w pliku:
+    ../static_data/filtered_hydro_data.parquet.gzip
     """
     hydro_url = "http://danepubliczne.imgw.pl/api/data/hydro2/"
     hydro_stat = pd.read_json(hydro_url)
     df = hydro_stat.iloc[:, 0:4]
-    
+
     # Tworzenie geometrii
     gdf = gpd.GeoDataFrame(
         df,
         geometry=gpd.points_from_xy(df["lon"], df["lat"]),
         crs="EPSG:4326"
     )
-    
+
     # Konwersja do układu PL (PUWG 1992)
     gdf = gdf.to_crs("EPSG:2180")
-    gdf.columns = ["Station Code","Station Name","Lon","Lat","geometry"] 
+    gdf.columns = ["Station Code", "Station Name", "Lon", "Lat", "geometry"]
+
+    # Filtrowanie stacji jeśli `filtered` = True
+    if filtered:
+        filtered_path = "../static_data/filtered_hydro_data.parquet.gzip"
+        filtered_df = pd.read_parquet(filtered_path)
+        filtered_codes = filtered_df["Station Code"].unique()
+        gdf = gdf[gdf["Station Code"].isin(filtered_codes)]
+
     return gdf
 
 
-def get_meteo_metadata() -> gpd.GeoDataFrame:
+def get_meteo_metadata(filtered=False) -> gpd.GeoDataFrame:
     """
     Wczytuje metadane meteorologiczne ze wskazanego URL (np. API IMGW)
     i zwraca je jako GeoDataFrame w układzie EPSG:2180 (PUWG 1992).
@@ -49,7 +60,15 @@ def get_meteo_metadata() -> gpd.GeoDataFrame:
     
     # Konwersja do układu PL (PUWG 1992)
     gdf = gdf.to_crs("EPSG:2180")
-    
+    gdf.columns = ["Station Code","Station Name","Lon","Lat","geometry"]
+
+     # Filtrowanie stacji jeśli `filtered` = True
+    if filtered:
+        filtered_path = "../static_data/filtered_meteo_data.parquet.gzip"
+        filtered_df = pd.read_parquet(filtered_path)
+        filtered_codes = filtered_df["Station Code"].unique()
+        gdf = gdf[gdf["Station Code"].isin(filtered_codes)]
+
     return gdf
 
 
