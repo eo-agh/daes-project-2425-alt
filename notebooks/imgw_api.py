@@ -219,3 +219,67 @@ def get_meteo_data(first, last):
     meteo_data['Actinometry Status'] = pd.to_numeric(meteo_data['Actinometry Status'], errors='coerce')
 
     return meteo_data
+
+
+def get_meteo_data_opad(first, last):
+    """
+    Wczytuje dane meteorologiczne ze wskazanego zakresu dat z adresu URL (API IMGW)
+    i zwraca je jako DataFrame.
+    """
+    meteo_data = pd.DataFrame()
+    for i in range(first,last+1):
+        url = f"https://danepubliczne.imgw.pl/data/dane_pomiarowo_obserwacyjne/dane_meteorologiczne/dobowe/opad/{i}/"
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            links = soup.find_all('a')
+            href_links = [link.get('href') for link in links if link.get('href') is not None and link.get('href')[0:4] == str(i)]
+        else: print(f"Strona meteo nie odpowiada.")
+
+
+        for link in href_links:
+            response = requests.get(url + link)
+            if response.status_code == 200:
+                zip_file = zipfile.ZipFile(io.BytesIO(response.content))  
+                for name in zip_file.namelist():
+                    try:
+                        with zip_file.open(name) as file:
+                            content = file.read()
+                            detected_encoding = chardet.detect(content)["encoding"]
+                            if detected_encoding is not None:
+                                encoding = detected_encoding
+                            else:
+                                encoding = 'utf-8'
+                            raw_data = content.decode(encoding, errors="replace")
+                            data = io.StringIO(raw_data)
+                            data_station = pd.read_csv(data, header=None, encoding=encoding, sep=',', lineterminator="\n")
+                            meteo_data = pd.concat([meteo_data, data_station])
+                    except (zipfile.BadZipFile, zipfile.BadZipfile, RuntimeError) as e:
+                        print(f"Błąd przy pliku {name}: {e}")
+            else:
+                print(f"Nie udało się pobrać pliku ZIP.") 
+
+    meteo_data = meteo_data.map(lambda x: str(x).replace('\r', '').replace('\n', '').strip() if isinstance(x, str) else x)
+    meteo_data.replace(['', 'nan', 'NaN', 'None', '-', 'null'], np.nan, inplace=True)
+    
+    meteo_data.columns = [
+    'Station Code',
+    'Station Name',
+    'Year',
+    'Month',
+    'Day',
+    'Daily Precip Sum',
+    'SMDB Measurement Status',
+    'Precipitation Type',
+    'Snow Cover Height',
+    'PKSN Measurement Status',
+    'Fresh Snow Height',
+    'HSS Measurement Status',
+    'Snow Type',
+    'GATS Measurement Status',
+    'Snow Cover Type',
+    'RPSN Measurement Status'
+]
+    return meteo_data
+
