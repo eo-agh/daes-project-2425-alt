@@ -281,5 +281,6 @@ def get_meteo_data_opad(first, last):
     'Snow Cover Type',
     'RPSN Measurement Status'
 ]
+    meteo_data['RPSN Measurement Status'] = pd.to_numeric(meteo_data['RPSN Measurement Status'], errors='coerce')
     return meteo_data
 
