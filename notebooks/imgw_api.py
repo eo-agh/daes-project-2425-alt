@@ -64,7 +64,7 @@ def get_meteo_metadata(filtered=False) -> gpd.GeoDataFrame:
 
      # Filtrowanie stacji jeśli `filtered` = True
     if filtered:
-        filtered_path = "../static_data/filtered_meteo_data.parquet.gzip"
+        filtered_path = "../static_data/filtered_meteo_opad_data.parquet.gzip"
         filtered_df = pd.read_parquet(filtered_path)
         filtered_codes = filtered_df["Station Code"].unique()
         gdf = gdf[gdf["Station Code"].isin(filtered_codes)]
