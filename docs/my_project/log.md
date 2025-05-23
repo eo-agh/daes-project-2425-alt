@@ -1,3 +1,23 @@
+## 18.04-23.05.2025
+### Problem:
+Niewielka liczba stacji pomiarowych dla wybranych danych meteorologicznych.
+
+### Rozwiązanie:
+Zamiana danych na dane opadowe zamiast synoptycznych.
+
+
+### Pozostałe wykonane czynności:
+1. Usunięcie nieużywanych/pustych notatników.
+2. uśniecie nieużywanych danych.
+3. Wprowadzenie zmian (poprawek) w kodzie związanych ze zmianą danych na dane opadowe.
+4. Przesunięcie dat pomiarowych według roku hydrologicznego oraz ograniczenie zakresu do pomiarów 2010-2022.
+5. Dostosowanie kodu preprocessingu do zmian m.in. w danych oraz w zapisie dat.
+6. Wynik preprocessingu został zapisany do pliku w static data.
+7. Dodanie funkcji wyświetlającej statystyki na mapach dla agregacji zlewni na 2 poziomie.
+8. Przeprowadzenie wstępnej analizy poziomu wody na wybranych zlewniach (notatnik analiza).
+9. Analiza lag hydrologicznego (opóźnienia reakcji poziomu wody na opady) na 2 poziomie zlewni.
+10. Przeprowadzenie wstępnej EDA oraz porównanie szeregów czasowych.
+
 ## 11.04.2025
 ### Problem:
 Trudności z zapisem danych meteorologicznych do pliku parquet.
