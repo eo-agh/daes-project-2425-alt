@@ -8,7 +8,7 @@ Zamiana danych na dane opadowe zamiast synoptycznych.
 
 ### Pozostałe wykonane czynności:
 1. Usunięcie nieużywanych/pustych notatników.
-2. uśniecie nieużywanych danych.
+2. Usunięcie nieużywanych danych.
 3. Wprowadzenie zmian (poprawek) w kodzie związanych ze zmianą danych na dane opadowe.
 4. Przesunięcie dat pomiarowych według roku hydrologicznego oraz ograniczenie zakresu do pomiarów 2010-2022.
 5. Dostosowanie kodu preprocessingu do zmian m.in. w danych oraz w zapisie dat.
