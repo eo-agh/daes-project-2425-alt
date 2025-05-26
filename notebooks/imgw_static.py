@@ -12,3 +12,7 @@ def get_static_data_hydro():
 
 def get_map_zlewnie():
     return gpd.read_file('../static_data/zlewnie/zlewnie_1.gpkg')
+
+def get_static_data_meteo():
+    return pd.read_parquet("../static_data/meteo_opad_data.parquet.gzip")
+
