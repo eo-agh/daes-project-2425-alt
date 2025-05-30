@@ -1,3 +1,11 @@
+## 24-30.05.2025
+### Co zostało zrobione:
+1. Zamieniono kody statów na odpowiednie wartości oraz usunięto niepotrzebne zmienne.
+2. Wybrano oraz zapisano dane pomiarowe do plików filtered_hydro_data oraz filtered_meteo_opad_data.
+3. Wybrano najbardziej wysunięte oraz centalna stacje oraz przeanalizowano dla nich tredn oraz sezonowość - brak.
+4. Analiza lagu dla wybranych w punkcie 3 stacji.
+
+
 ## 18.04-23.05.2025
 ### Problem:
 Niewielka liczba stacji pomiarowych dla wybranych danych meteorologicznych.
